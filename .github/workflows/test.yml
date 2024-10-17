@@ -33,6 +33,22 @@ jobs:
     - name: Test --help flag
       run: ./bn.sh --help
 
+    - name: Test for Lucy in 1880 (44/942)
+      run: ./bn.sh 1880 F <<< "lucy"
+
+    - name: Test for Payton in 1880 (1028/1058)
+      run: ./bn.sh 1880 m <<< "Payton"
+
+    - name: Test for name not ranked in 2022
+      run: ./bn.sh 2022 M <<< "Skibidi"
+      continue-on-error: true
+
+    - name: Test for Sam in 2022 (female: 6628/17660, male: 658/14255)
+      run: ./bn.sh 2022 b <<< "sam"
+
+    - name: Run the test_script
+      run: ./test_script > test_results.txt
+
     - name: Upload Test Results
       if: ${{ always() }}
 

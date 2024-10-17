@@ -15,6 +15,14 @@ get_ranking_for_gender() {
     local file="$2"
     local gender="$3"
 
+    if [[ "$gender" =~ [fF] ]]
+    then
+        local gender_word="female"
+    elif [[ "$gender" =~ [mM] ]]
+    then
+        local gender_word="male"
+    fi
+
     # Get total number of F or M gender names
     local total_names=$(cat "$file" | grep -P -i ",$gender," | wc -l)
     # Find the entry for the name and specified gender
@@ -24,9 +32,9 @@ get_ranking_for_gender() {
     if [[ -n "$entry" ]]; then
         local rank=$(cat "$file" | grep -P -i ",$gender," | grep -P -ni "^$name," | cut -d':' -f1)
 
-        echo "$year: $name ranked $rank out of $total_names $gender names."
+        echo "$year: $name ranked $rank out of $total_names $gender_word names."
     else
-        echo "$year: $name not found among $gender names." >&2
+        echo "$year: $name not found among $gender_word names." >&2
         exit 3
     fi
 }
@@ -140,3 +148,4 @@ do
     fi
     rank "$name" "$year" "$gender"
 done
+exit 0
