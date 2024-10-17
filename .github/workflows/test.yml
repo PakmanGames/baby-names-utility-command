@@ -43,7 +43,7 @@ jobs:
       run: ./bn.sh 2022 M <<< "Skibidi"
       continue-on-error: true
 
-    - name: Test for Sam in 2022 (female: 6628/17660, male: 658/14255)
+    - name: Test for Sam in 2022
       run: ./bn.sh 2022 b <<< "sam"
 
     - name: Run the test_script
