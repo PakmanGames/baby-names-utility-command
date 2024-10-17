@@ -29,7 +29,7 @@ then
     echo "No arguments given" >&2
     usage
     exit 1
-elif [[ "$#" -ne 2 || "$1" != "--help" ]]
+elif [[ "$1" != "--help" && "$#" -ne 2 ]]
 then
     echo "Wrong number of arguments" >&2
     usage

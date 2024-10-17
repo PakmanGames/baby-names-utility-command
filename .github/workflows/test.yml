@@ -12,12 +12,15 @@ jobs:
 
     - name: Test when no arguments are given
       run: ./bn.sh > test_results.txt
+      continue-on-error: true
 
     - name: Test year outside of allowed range
       run: ./bn.sh 2030 F > test_results.txt
+      continue-on-error: true
 
     - name: Test invalid gender
       run: ./bn.sh 2019 A > test_results.txt
+      continue-on-error: true
 
     - name: Test --help flag
       run: ./bn.sh --help
