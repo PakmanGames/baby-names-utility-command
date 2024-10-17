@@ -22,6 +22,14 @@ jobs:
       run: ./bn.sh 2019 A > test_results.txt
       continue-on-error: true
 
+    - name: Test invalid name format
+      run: ./bn.sh 2000 F <<< "lucy2"
+      continue-on-error: true
+
+    - name: Test for non-existent file
+      run: ./bn.sh 1801 f <<< "lucy"
+      continue-on-error: true
+
     - name: Test --help flag
       run: ./bn.sh --help
 

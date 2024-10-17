@@ -3,8 +3,17 @@
 # Andy Pak, McMaster University, 2024
 
 rank() {
-    # TODO given name, year, and gender, return rank
-    echo "TODO"
+    local name="$1"
+    local year="$2"
+    local gender="$3"
+    
+    local file="./us_baby_names/yob$year.txt"
+    if ! [[ -f $file ]]
+    then
+        echo "No data for $year" >&2
+        exit 4
+    fi
+    # TODO
 }
 
 usage() {
@@ -16,7 +25,7 @@ help() {
     echo "Usage: bn <year> <assigned gender: f|F|m|M|b|B>"
     echo ""
     echo "Arguments: "
-    echo "  year        A 4-digit year from 1880 to 2024"
+    echo "  year        A 4-digit year from 1800 to 2024"
     echo "  gender      A single character, f, F, m, M, b, or B"
     echo ""
     echo "Flags: "
@@ -44,17 +53,28 @@ fi
 year="$1"
 gender="$2"
 
-if ! [[ "$year" =~ ^[0-9]{4}$ && "$year" -gt 1879 && "$year" -lt 2025 ]]
+if ! [[ "$year" =~ ^[0-9]{4}$ && "$year" -gt 1799 && "$year" -lt 2025 ]]
 then
-    echo "Error: Year must be 4-digit between 1880 to 2024" >&2
+    echo "Error: Year must be 4-digit between 1800 to 2024" >&2
     usage
     exit 2
 fi
 
 if ! [[ "$gender" =~ ^[fFmMbB]$ ]]
 then
+    echo "Badly formatted assigned gender: $gender"
     echo "Error: Gender can be f, m, F, M, b, or B" >&2
     usage
     exit 2
 fi
 
+# main part of program
+while read name
+do
+    if ! [[ $name =~ ^[a-zA-Z]+$ ]]
+    then
+        echo "Badly formatted name: $name" >&2
+        exit 3
+    fi
+    rank "$name" "$year" "$gender"
+done
