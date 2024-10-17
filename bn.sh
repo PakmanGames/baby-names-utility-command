@@ -1,6 +1,7 @@
 #!/bin/bash
 # bn utility that returns the ranking for a given baby name in a given year based on gender
 # Andy Pak, McMaster University, 2024
+# Additional sources used to learn about cut command for determining the name ranking: https://www.geeksforgeeks.org/cut-command-linux-examples/
 
 get_ranking_for_gender() {
     local name="$1"
@@ -8,12 +9,17 @@ get_ranking_for_gender() {
     local gender="$3"
 
     # lucy 44/942 in 1880
-    # cat ./us_baby_names/yob1880.txt | grep -P ",F," | wc -l
-    # cat ./us_baby_names/yob1880.txt | grep -P -i "^Lucy," | grep -P ",F,"
     local total_names=$(cat "$file" | grep -P -i ",$gender," | wc -l)
     local entry=$(cat "$file" | grep -P -i "^$name," | grep -P -i ",$gender,")
-    echo "total $gender names is $total_names" # testing
-    echo "the entry is $entry" # testing
+
+    if [[ -n "$entry" ]]; then
+
+        local rank=$(cat "$file" | grep -P -i ",$gender," | grep -P -ni "^$name," | cut -d':' -f1)
+
+        echo "$year: $name ranked $rank out of $total_names $gender names."
+    else
+        echo "$year: $name not found among $gender names."
+    fi
 }
 
 rank() {
