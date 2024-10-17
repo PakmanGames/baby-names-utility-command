@@ -13,8 +13,15 @@ usage() {
 }
 
 help() {
-    # TODO output help to stdout
-    echo "TODO"
+    echo "Usage: bn <year> <assigned gender: f|F|m|M|b|B>"
+    echo ""
+    echo "Arguments: "
+    echo "  year        A 4-digit year from 1880 to 2024"
+    echo "  gender      A single character, f, F, m, M, b, or B"
+    echo ""
+    echo "Flags: "
+    echo "  --help      A linux style help"
+    exit 0
 }
 
 if [[ "$#" -eq 0 ]]
@@ -22,16 +29,20 @@ then
     echo "No arguments given" >&2
     usage
     exit 1
-elif [[ "$#" -ne 2 ]]
+elif [[ "$#" -ne 2 || "$1" != "--help" ]]
 then
     echo "Wrong number of arguments" >&2
     usage
     exit 1
 fi
 
+if [[ "$1" == "--help" ]]
+then
+    help
+fi
+
 year="$1"
 gender="$2"
-# exit 2 if bad arguments
 
 if ! [[ "$year" =~ ^[0-9]{4}$ && "$year" -gt 1879 && "$year" -lt 2025 ]]
 then
@@ -46,3 +57,4 @@ then
     usage
     exit 2
 fi
+
